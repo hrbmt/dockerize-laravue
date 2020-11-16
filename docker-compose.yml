@@ -1,0 +1,45 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: laravue_nginx
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    ports:
+      ## run the nginx on port 8080 ##
+      - "8084:80"
+  app:
+    ## read php image from our custom docker image ##
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: laravue_app
+    volumes:
+      ## copy project files to /var/www ##
+      - ./:/var/www
+    working_dir: /var/www
+
+  db:
+    image: mysql:5.7
+    ## expose the mysql port to our machine so we can access it from any mysql-client like TablePlus ##
+    ports:
+      - "33061:3306"
+   ## keep mysql data on localhost so we don't lose them ##
+    volumes:
+      - ./docker/db:/var/lib/database
+    container_name: laravue_db
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8085:8080
+  redis:
+    image: redis
+    container_name: laravue_redis
+    volumes:
+      ## keep redis data on localhost so we don't lose them ##
+      - ./docker/redis:/data
