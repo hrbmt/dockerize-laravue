@@ -11,9 +11,7 @@ services:
       - "8084:80"
   app:
     ## read php image from our custom docker image ##
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+    image: phamviethung/laravue-docker:1.0
     container_name: laravue_app
     volumes:
       ## copy project files to /var/www ##
