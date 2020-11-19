@@ -23,6 +23,7 @@ jobs:
           MYSQL_DATABASE: laravue
           MYSQL_ROOT_PASSWORD: root
           MYSQL_PASSWORD: laravue@123
+          
 
     steps:
       - checkout
