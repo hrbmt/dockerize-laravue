@@ -11,7 +11,9 @@ services:
       - "8084:80"
   app:
     ## read php image from our custom docker image ##
-    image: phamviethung/laravue-docker:1.0
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     container_name: laravue_app
     volumes:
       ## copy project files to /var/www ##
@@ -37,9 +39,3 @@ services:
     restart: always
     ports:
       - 8085:8080
-  redis:
-    image: redis
-    container_name: laravue_redis
-    volumes:
-      ## keep redis data on localhost so we don't lose them ##
-      - ./docker/redis:/data
