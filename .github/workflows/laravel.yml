@@ -1,4 +1,4 @@
-name: Laravue
+name: Laravel
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: master
 
 jobs:
-  laravue:
+  laravel-tests:
 
     runs-on: ubuntu-latest
 
