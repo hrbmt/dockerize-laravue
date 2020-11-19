@@ -4,7 +4,7 @@
 #
 version: 2
 jobs:
-  test:
+  laravue:
     docker:
       # Specify the version you desire here
       - image: circleci/php:7.2-stretch
@@ -19,10 +19,10 @@ jobs:
       - image: circleci/mysql:8.0.20-ram
         command: mysqld --default-authentication-plugin=mysql_native_password
         environment:
-          MYSQL_USER: forge
-          MYSQL_DATABASE: forge
-          MYSQL_ROOT_PASSWORD: ''
-          MYSQL_PASSWORD: 'forge'
+          MYSQL_USER: laravue
+          MYSQL_DATABASE: laravue
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_PASSWORD: laravue@123
 
     steps:
       - checkout
@@ -64,22 +64,8 @@ jobs:
             - node_modules
             - ~/.yarn
 
-      # prepare the database
-      - run: touch storage/testing.sqlite
-      - run: php artisan migrate --env=testing --database=mysql --force
-
-      # run tests with phpunit or codecept
-      #- run: ./vendor/bin/phpunit
-      # this example uses codecept but you're not limited to it
-      - run: ./vendor/bin/codecept build
-      - run: ./vendor/bin/codecept run --xml result.xml
-      - store_test_results:
-          path: tests/_output
-      - store_artifacts:
-          path: tests/_output
-
 workflows:
   version: 2
   workflow:
     jobs:
-    - test
+    - laravue
