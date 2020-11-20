@@ -41,5 +41,5 @@ jobs:
     - name: Deploy app
       id: deploy-app
       run:
-        git pull
+        git pull origin master
     
